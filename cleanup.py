@@ -3,23 +3,35 @@
 import sys
 
 def main(args):
-    subsDict(args[0])
+    if len(args) != 3:
+        print("Script expects 3 arguments:\n1: reportfile, 2: input fasta file, 3: output fasta file")
+        exit(1)
 
+    subs = subsDict(args[0])
+    # cleanFile(args[1], args[2], subs)
 
 def subsDict(reportfile):
     reportDict = {}
     with open(reportfile) as subs:
-        while True:
-            line = subs.readline()
-            if not line:
-                break
+        for line in subs.readlines():
 
-            info = line.split(',')[2:4]
-            key = info[0][6:]
-            values = info[1][8:].split('.')
+            info = line.split()
+            key = info[0]
+            values = info[1].split('.')
             values = (values[0], values[2])
             reportDict[key] = values
+    print(reportDict)
+    return reportDict
 
+def cleanFile(inputfile, outputfile, subs):
+    with open(inputfile) as inp, open(outputfile) as out:
+        for line in inp.readlines():
+            if line[0] == '>':
+                # idecko
+                pass
+            else:
+                # sekvence
+                pass
 
 
 if __name__ == '__main__':
