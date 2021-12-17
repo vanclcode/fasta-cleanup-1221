@@ -41,12 +41,14 @@ def cleanFile(inputfile, outputfile, subs):
                     else:
                         subseq = seq[0:subs[id][0] + 1]
 
-                    out.write(f">{id}\n")
-                    out.write(f"{subseq}\n")
                     totalchanged += 1
-                    if(totalchanged % 100 == 0):
-                        print(f"# changed {totalchanged}/{totaltested}")
+                    # if(totalchanged % 100 == 0):
+                    #     print(f"# changed {totalchanged}/{totaltested}")
+                else:
+                    subseq = seq
 
+                out.write(f">{id}\n")
+                out.write(f"{subseq}\n")
 
     print(f"# Finished - changed total of {totalchanged}/{totaltested}")
 
