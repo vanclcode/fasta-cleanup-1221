@@ -30,7 +30,7 @@ def cleanFile(inputfile, outputfile, subs):
             if line[0] == '>':
                 # idecko
                 id = line[1:].split()[0]
-                seq = inp.readline()
+                seq = inp.readline().strip()
                 seql = len(seq)
                 totaltested += 1
                 if id in subs:
