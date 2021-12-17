@@ -8,30 +8,47 @@ def main(args):
         exit(1)
 
     subs = subsDict(args[0])
-    # cleanFile(args[1], args[2], subs)
+    cleanFile(args[1], args[2], subs)
 
 def subsDict(reportfile):
     reportDict = {}
-    with open(reportfile) as subs:
+    with open(reportfile, 'r') as subs:
         for line in subs.readlines():
 
             info = line.split()
             key = info[0]
             values = info[1].split('.')
-            values = (values[0], values[2])
+            values = (int(values[0]), int(values[2]))
             reportDict[key] = values
-    print(reportDict)
     return reportDict
 
 def cleanFile(inputfile, outputfile, subs):
-    with open(inputfile) as inp, open(outputfile) as out:
-        for line in inp.readlines():
+    totalchanged = 0
+    totaltested = 0
+    with open(inputfile, 'r') as inp, open(outputfile, 'w') as out:
+        while line := inp.readline():
             if line[0] == '>':
                 # idecko
-                pass
-            else:
-                # sekvence
-                pass
+                id = line[1:].split()[0]
+                seq = inp.readline()
+                seql = len(seq)
+                totaltested += 1
+                if id in subs:
+                    # je tam
+                    if (seql - subs[id][0]) > subs[id][1]:
+                        # druha pulka je vetsi
+                        subseq = seq[subs[id][1]:]
+                    else:
+                        subseq = seq[0:subs[id][0] + 1]
+
+                    out.write(f">{id}\n")
+                    out.write(f"{subseq}\n")
+                    totalchanged += 1
+                    if(totalchanged % 100 == 0):
+                        print(f"# changed {totalchanged}/{totaltested}")
+
+
+    print(f"# Finished - changed total of {totalchanged}/{totaltested}")
 
 
 if __name__ == '__main__':
