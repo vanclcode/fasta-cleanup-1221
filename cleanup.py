@@ -2,18 +2,24 @@
 
 import sys
 
-def main(arguments):
-    print(arguments)
+def main(args):
+    subsDict(args[0])
 
 
 def subsDict(reportfile):
+    reportDict = {}
     with open(reportfile) as subs:
-        info = subs.split(',')[3:4]
-        key = info[0][10:]
-        values = info[1][10:].split('.')
-        values = (values[0], values[2])
-        
-        
+        while True:
+            line = subs.readline()
+            if not line:
+                break
+
+            info = line.split(',')[2:4]
+            key = info[0][6:]
+            values = info[1][8:].split('.')
+            values = (values[0], values[2])
+            reportDict[key] = values
+
 
 
 if __name__ == '__main__':
